@@ -9,7 +9,6 @@
 constexpr double pi = std::numbers::pi;
 ```
 
-
 2. **POSIX 巨集 `M_PI`（`<cmath>`）**
 
 多數編譯器支援 POSIX 標準定義的 `M_PI`。在 MSVC 環境下使用時，需在引入 `<cmath>` 前定義 `_USE_MATH_DEFINES`：
@@ -19,7 +18,6 @@ constexpr double pi = std::numbers::pi;
 
 const double pi = M_PI;
 ```
-
 
 3. **使用反餘弦函式計算**
 
