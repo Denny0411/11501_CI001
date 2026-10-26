@@ -69,22 +69,21 @@ After passByReference(), c = 20
 ## Anki
 
 Q:
-void f(int a);
-
+`void f(int a);`
 pass by pointer form?
 
 A:
-void f(int* a);
+`void f(int* a);`
 
 Q:
-void f(int a);
-
+`void f(int a);`
 pass by reference form?
 
 A:
-void f(int& a);
+`void f(int& a);`
 
 Q:
+```cpp
 void f(int* ptr) {
     ...
 }
@@ -94,20 +93,21 @@ int main()
     int a = 10;
     ...
 }
-
-如何在 main function 中使用函數 f，並傳遞 a 的 address？
+```
+如何在 main function 中使用函數 `f`，並傳遞 `a` 的 address？
 
 A:
-f(&a);
-&: address-of operator 取址運算子
+`f(&a);`
+`&`: address-of operator 取址運算子
 
 Q:
+```cpp
 void f(int* a) {
     ...
 }
-
-如何在函數 f 中對指標 a 進行解參考（dereference），並將 a 所指向的值 += 10？
+```
+如何在函數 `f` 中對指標 `a` 進行解參考（dereference），並將 `a` 所指向的值 += 10？
 
 A:
-*a += 10;
+`*a += 10;`
 *: dereference operator 解參考運算子
