@@ -160,3 +160,57 @@ bool compare(Count a, Count b)
 }
 ```
 * 移除換行相關的冗餘程式碼。
+
+## `map` version
+
+### Fail Code
+
+```cpp
+#include <iostream>
+#include <string>
+#include <map>
+#include <cctype>
+
+using namespace std;
+
+int main()
+{
+    int n;
+    cin >> n;
+    
+    map<char, int> count;
+    while (n--)
+    {
+        string input;
+        getline(cin, input);
+        for (int i = 0; i < input.size(); i++)
+        {
+            if (isalpha(input.at(i)))
+            {
+                count[toupper( input.at(i) )]++;
+            }
+        }
+    }
+
+    for (auto i : count)
+        cout << i.first << " " << i.second << "\n";
+}
+```
+
+1. 為什麼 `n` 明明輸入 3，while 迴圈卻只有跑 2 次？
+
+> 其實 `while (n--)` 確實有執行 3 次，只是**第一次讀到的是空字串**。
+> 
+> * **原因**：當你使用 `cin >> n;` 讀取數字 `3` 時，`cin` 只讀走了數字本身，你按下 Enter 所產生的**換行符號（`\n`）還留在輸入緩衝區（Input Buffer）裡**。接著進入 `while` 迴圈第一次執行 `getline(cin, input);` 時，`getline` 一看到緩衝區裡殘留的 `\n` 就認為第一行結束了，導致第一次讀進來的 `input` 是空的（`""`），後面兩次才真正讀到第一行與第二行的文字，而第三行文字根本沒被讀到。
+> 
+> * **為什麼第一版程式沒這個問題？**：回顧你上一版的 `2_10008.cpp`，你在 `cin >> n;` 後面多寫了一行 `n++;`，用多跑一次迴圈的方式把那個殘留的換行符號「吃掉」了。
+> 
+> * **標準解法**：不需要改動 `n` 的值，只要在 `cin >> n;` 之後、`while` 迴圈之前，加上 `cin.ignore();`（或是 `getline(cin, input);` 先空讀一次），把緩衝區裡的換行符號清除即可。
+> 
+> written by gemini
+
+2. 該怎麼讓 `count` 按照 value 的大小排列，並且 value 一樣時按照 key 的字典序排列？
+
+C++ 的 `std::map` 底層是紅黑樹，它的特性是永遠只會根據 Key 來自動排序（預設由小到大），無法直接對 `map` 本身呼叫 `std::sort` 來改用 Value 排序。
+
+若要對 map 的統計結果進行自訂排序，標準做法是將資料轉移到 `std::vector` 中再進行排序。
